@@ -1,0 +1,71 @@
+[CT 2024-12-01] I made the following summary for myself
+References:
+[1] https://hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/
+[2] https://tmuxcheatsheet.com/
+[3] https://github.com/tmux-plugins/tmux-resurrect
+
+============= Key commands within tmux ============
+CTRL+b |				Splits vertical. Original was C-b %
+
+CTRL+b -				Splits horizontal. Original was C-b "
+
+ALT+(arrows)				Moves the entry point
+
+CTRL+d					Kills terminal. You can also just type 'exit'
+
+CTRL+b c				Creates windows (a la 'virtual desktops')
+
+CTRL+b n				Cycles to the next window
+
+CTRL+b [0-9]				Switches to window [0-9]
+
+CTRL+b p				Cycles to the previous window
+
+CTRL+b d				Detaches from the tmux session
+
+CTRL+b r				Reload tmux configuration from ~/.tmux.conf. Very handy for experimenting on the fly.
+
+CTRL+b '				Renames tmux window
+
+CTRL+b $				Renames tmux session
+
+CTRL+b w				Lists windows with preview
+
+============= Key bash commands  ============
+tmux								Creates a session. Gives it a number as session name
+tmux ls								Lists all the tmux sessions. Indictes which ones are attached to.
+tmux attach -t <session-name>					Attaches to tmux session <session-name>. E.g tmux attach -t 0
+tmux new -s <session-name>					Creates a new tmux session and names it <session-name>
+tmux rename-session -t <old-session-name> <session-name>	Renames a tmux session <old-session-name> to <session-name>. E.g. tmux rename-session -t 0 database
+tmux kill-session <session-name>				Kills tmux session <session-name>
+
+============= Persisting tmux session  ============
+From [3]: "Tmux is great, except when you have to restart the computer. You lose all the running programs, working directories, pane layouts etc. There are helpful management tools out there, but they require initial configuration and continuous updates as your workflow evolves or you start new projects.
+
+tmux-resurrect saves all the little details from your tmux environment so it can be completely restored after a system restart (or when you feel like it). No configuration is required. You should feel like you never quit tmux."
+
+[CT] So I went ahead and installed the tmux-resurrect plugin. I used this procedure to install:
+
+# Installation with Tmux Plugin Manager (recommended)
+#   Add plugin to the list of TPM plugins in .tmux.conf:
+#   $ set -g @plugin 'tmux-plugins/tmux-resurrect'
+#   Hit prefix + I to fetch the plugin and source it. You should now be able to use the plugin.
+
+After the tmux-resurrect plugin is installed, you get the following two commands:
+
+CTRL+b  CTRL+s				Saves the current tmux session
+
+CTRL+b  CTRL+r				Restores the previously saved tmux session
+
+============= Pasting text copied in tmux onto the System Clipboard ============
+I installed 'xsel' (sudo apt install xsel).
+
+Then I followed: https://www.seanh.cc/2020/12/27/copy-and-paste-in-tmux/
+
+This adds the following commands:
+
+Hold left click and drag		Selects text and puts tmux in 'copy mode'.
+
+(while in copy mode) CTRL+C		Copies the selected text into the System Clipboard.
+
+(while in copy mode) q			Exits tmux's 'copy mode'.
