@@ -19,6 +19,9 @@ shopt -s histappend
 HISTSIZE=1000
 HISTFILESIZE=2000
 
+# Trim directory depth
+PROMPT_DIRTRIM=1
+
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
@@ -61,7 +64,6 @@ parse_git_branch() {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 
-
 if [ "$color_prompt" = yes ]; then
     PS1="\[\e]0;${debian_chroot:+($debian_chroot)} \[\e[01;32m\]\u@\h\[\e[0m\]:\[\e[01;34m\]\w\[\e[0m\] \[\e[38;5;197m\]\$(parse_git_branch)\[\e[0m\]$ "
 else
@@ -70,13 +72,13 @@ fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="${debian_chroot:+($debian_chroot)}\u@\h:\w \$(parse_git_branch)$ "
-    ;;
-*)
-    ;;
-esac
+# case "$TERM" in
+# xterm*|rxvt*)
+#     PS1="${debian_chroot:+($debian_chroot)}\u@\h:\w \$(parse_git_branch)$ "
+#     ;;
+# *)
+#     ;;
+# esac
 
 
 # enable color support of ls and also add handy aliases
@@ -125,10 +127,6 @@ fi
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/usr/local/bin/:$PATH"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 #[CT] Custom aliases
 # [2024-01-12]
